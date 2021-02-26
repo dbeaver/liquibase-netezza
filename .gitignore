@@ -1,0 +1,13 @@
+.DS_Store
+target
+*~
+*.swp
+*.swo
+.idea
+*.iml
+
+.classpath
+.history/
+.settings/
+.vscode/
+.project
