@@ -44,11 +44,13 @@ public class NetezzaSequenceSnapshotGenerator extends SequenceSnapshotGenerator 
     @Override
     protected String getSelectSequenceSql(Schema schema, Database database) {
     	if (database instanceof NetezzaDatabase) {
-       	 return "SELECT\n" +
-                    "SEQNAME AS SEQUENCE_NAME " +
-                    "FROM " + schema.getCatalogName().toUpperCase(Locale.ENGLISH) +
-                    ".DEFINITION_SCHEMA._V_SEQUENCE s " +
-                    "WHERE s.SCHEMA ='" + schema.getName() + "'";
+    		String catalogName = schema.getCatalogName().toUpperCase(Locale.ENGLISH);
+    		return "SELECT\n" +
+                    "S.SEQNAME AS SEQUENCE_NAME, " +
+       			 	" VT.CYCLE AS WILL_CYCLE, VT.INCREMENT AS INCREMENT_BY, VT.* FROM " + catalogName + ".DEFINITION_SCHEMA._V_SEQUENCE S" +
+                    "\nLEFT JOIN " + catalogName + ".DEFINITION_SCHEMA._VT_SEQUENCE VT " +
+                    "ON S.OBJID = VT.SEQ_ID" +
+                    "\nWHERE s.SCHEMA ='" + schema.getName() + "'";
         }
     	
         return super.getSelectSequenceSql(schema, database);
