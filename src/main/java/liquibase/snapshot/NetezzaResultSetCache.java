@@ -16,11 +16,11 @@
  */
 package liquibase.snapshot;
 
-import java.sql.SQLException;
-import java.util.List;
-
 import liquibase.database.Database;
 import liquibase.exception.DatabaseException;
+
+import java.sql.SQLException;
+import java.util.List;
 
 public class NetezzaResultSetCache extends ResultSetCache {
     public static class RowData extends ResultSetCache.RowData {
@@ -42,12 +42,5 @@ public class NetezzaResultSetCache extends ResultSetCache {
         public List<CachedRow> executeAndExtract(String sql, Database database) throws DatabaseException, SQLException {
             return super.executeAndExtract(sql, database);
         }
-
-        @Override
-        public List<CachedRow> executeAndExtract(String sql, Database database, boolean informixTrimHint)
-                throws DatabaseException, SQLException {
-            return super.executeAndExtract(sql, database, informixTrimHint);
-        }
-
     }
 }
