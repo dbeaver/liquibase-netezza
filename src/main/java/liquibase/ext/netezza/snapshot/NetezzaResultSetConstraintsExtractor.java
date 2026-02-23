@@ -16,9 +16,6 @@
  */
 package liquibase.ext.netezza.snapshot;
 
-import java.sql.SQLException;
-import java.util.List;
-
 import liquibase.CatalogAndSchema;
 import liquibase.database.AbstractJdbcDatabase;
 import liquibase.database.Database;
@@ -28,6 +25,9 @@ import liquibase.snapshot.DatabaseSnapshot;
 import liquibase.snapshot.NetezzaResultSetCache;
 import liquibase.snapshot.NetezzaResultSetCache.SingleResultSetExtractor;
 import liquibase.structure.core.Schema;
+
+import java.sql.SQLException;
+import java.util.List;
 
 public class NetezzaResultSetConstraintsExtractor extends SingleResultSetExtractor {
 
@@ -71,7 +71,7 @@ public class NetezzaResultSetConstraintsExtractor extends SingleResultSetExtract
         return executeAndExtract(
                 createSql(((AbstractJdbcDatabase) this.database).getJdbcCatalogName(catalogAndSchema),
                         ((AbstractJdbcDatabase) this.database).getJdbcSchemaName(catalogAndSchema), this.tableName),
-                this.database, false);
+                this.database);
     }
 
     @Override

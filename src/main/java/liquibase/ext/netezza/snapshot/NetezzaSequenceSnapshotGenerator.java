@@ -16,14 +16,16 @@
  */
 package liquibase.ext.netezza.snapshot;
 
-import java.util.Locale;
-
 import liquibase.database.Database;
 import liquibase.ext.netezza.database.NetezzaDatabase;
 import liquibase.snapshot.SnapshotGenerator;
 import liquibase.snapshot.jvm.SequenceSnapshotGenerator;
+import liquibase.statement.SqlStatement;
+import liquibase.statement.core.RawParameterizedSqlStatement;
 import liquibase.structure.DatabaseObject;
 import liquibase.structure.core.Schema;
+
+import java.util.Locale;
 
 public class NetezzaSequenceSnapshotGenerator extends SequenceSnapshotGenerator {
 
@@ -42,18 +44,19 @@ public class NetezzaSequenceSnapshotGenerator extends SequenceSnapshotGenerator 
     }
 
     @Override
-    protected String getSelectSequenceSql(Schema schema, Database database) {
-    	if (database instanceof NetezzaDatabase) {
-    		String catalogName = schema.getCatalogName().toUpperCase(Locale.ENGLISH);
-    		return "SELECT\n" +
-                    "S.SEQNAME AS SEQUENCE_NAME, " +
-       			 	" VT.CYCLE AS WILL_CYCLE, VT.INCREMENT AS INCREMENT_BY, VT.* FROM " + catalogName + ".DEFINITION_SCHEMA._V_SEQUENCE S" +
-                    "\nLEFT JOIN " + catalogName + ".DEFINITION_SCHEMA._VT_SEQUENCE VT " +
-                    "ON S.OBJID = VT.SEQ_ID" +
-                    "\nWHERE s.SCHEMA ='" + schema.getName() + "'";
+    protected SqlStatement getSelectSequenceStatement(Schema schema, Database database) {
+        if (database instanceof NetezzaDatabase) {
+            String catalogName = schema.getCatalogName().toUpperCase(Locale.ENGLISH);
+            String sql = "SELECT\n" +
+                "S.SEQNAME AS SEQUENCE_NAME, " +
+                " VT.CYCLE AS WILL_CYCLE, VT.INCREMENT AS INCREMENT_BY, VT.* FROM " + catalogName + ".DEFINITION_SCHEMA._V_SEQUENCE S" +
+                "\nLEFT JOIN " + catalogName + ".DEFINITION_SCHEMA._VT_SEQUENCE VT " +
+                "ON S.OBJID = VT.SEQ_ID" +
+                "\nWHERE s.SCHEMA ='" + schema.getName() + "'";
+            return new RawParameterizedSqlStatement(sql);
+        } else {
+            return super.getSelectSequenceStatement(schema, database);
         }
-    	
-        return super.getSelectSequenceSql(schema, database);
-    }
 
+    }
 }
