@@ -28,7 +28,7 @@ public class ChangedColumnChangeGeneratorNetezza extends ChangedColumnChangeGene
     @Override
     public int getPriority(Class<? extends DatabaseObject> objectType, Database database) {
         if (database instanceof NetezzaDatabase) {
-            return PRIORITY_DATABASE;
+            return Column.class.isAssignableFrom(objectType) ? 2 : -1;
         } else {
             return PRIORITY_NONE;
         }
@@ -118,8 +118,8 @@ public class ChangedColumnChangeGeneratorNetezza extends ChangedColumnChangeGene
         String sql =
             "SELECT 1\n"
                 + "FROM _v_table_dist_map dm\n"
-                + "WHERE dm.schemaname = ?\n"
-                + "  AND dm.tablename = ?\n"
+                + "WHERE dm.OWNER = ?\n"
+                + "  AND dm.TABLENAME = ?\n"
                 + "  AND dm.attname = ?";
         try (PreparedStatement ps = ((JdbcConnection) referenceDatabase.getConnection()).prepareStatement(sql)) {
             ps.setString(1, schema.getName().toUpperCase());

@@ -3,7 +3,11 @@ package liquibase.ext.netezza.change;
 import liquibase.change.DatabaseChange;
 import liquibase.change.core.ModifyDataTypeChange;
 import liquibase.database.Database;
+import liquibase.database.core.DB2Database;
+import liquibase.ext.netezza.statement.ModifyColumnDataTypeStatementNetezza;
 import liquibase.statement.SqlStatement;
+import liquibase.statement.core.ModifyDataTypeStatement;
+import liquibase.statement.core.ReorganizeTableStatement;
 
 /**
  * Netezza only allows changing length(by incrementing but not decrementing) and precision(by incrementing but not decrementing) of the data type.
@@ -21,6 +25,7 @@ public class ModifyDataTypeChangeDestructiveNetezza extends ModifyDataTypeChange
 
     @Override
     public SqlStatement[] generateStatements(Database database) {
-        return super.generateStatements(database);
+        ModifyColumnDataTypeStatementNetezza modifyDataTypeStatement = new ModifyColumnDataTypeStatementNetezza(this.getCatalogName(), this.getSchemaName(), this.getTableName(), this.getColumnName(), this.getNewDataType());
+        return new SqlStatement[] {modifyDataTypeStatement};
     }
 }
