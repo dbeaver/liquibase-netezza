@@ -1,1 +1,2 @@
 liquibase.ext.netezza.sqlgenerator.ModifyDataTypeGeneratorNetezza
+liquibase.ext.netezza.sqlgenerator.NetezzaIncrementVarcharSQLGenerator
