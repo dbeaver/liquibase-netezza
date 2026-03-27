@@ -45,7 +45,7 @@ public class ModifyDataTypeGeneratorNetezza extends ModifyDataTypeGenerator {
             ), this.getAffectedTable(statement)),
             new UnparsedSql(String.format(
                 "UPDATE %s SET %s = %s",
-                table, tempColumn, newDataType
+                table, tempColumn, column
             ), this.getAffectedTable(statement)),
             new UnparsedSql(String.format(
                 "ALTER TABLE %s DROP COLUMN %s RESTRICT",
