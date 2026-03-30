@@ -28,4 +28,29 @@ public class ModifyDataTypeChangeDestructiveNetezza extends ModifyDataTypeChange
         ModifyColumnDataTypeStatementNetezza modifyDataTypeStatement = new ModifyColumnDataTypeStatementNetezza(this.getCatalogName(), this.getSchemaName(), this.getTableName(), this.getColumnName(), this.getNewDataType());
         return new SqlStatement[] {modifyDataTypeStatement};
     }
+
+    @Override
+    public String getCatalogName() {
+        return super.getCatalogName();
+    }
+
+    @Override
+    public String getSchemaName() {
+        return super.getSchemaName();
+    }
+
+    @Override
+    public String getTableName() {
+        return super.getTableName();
+    }
+
+    @Override
+    public String getColumnName() {
+        return super.getColumnName();
+    }
+
+    @Override
+    public String getNewDataType() {
+        return super.getNewDataType();
+    }
 }

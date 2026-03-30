@@ -1,6 +1,8 @@
 package liquibase.ext.netezza.sqlgenerator;
 
 import liquibase.database.Database;
+import liquibase.datatype.DataTypeFactory;
+import liquibase.datatype.DatabaseDataType;
 import liquibase.ext.netezza.database.NetezzaDatabase;
 import liquibase.ext.netezza.statement.ModifyColumnDataTypeStatementNetezza;
 import liquibase.sql.Sql;
@@ -36,10 +38,10 @@ public class NetezzaIncrementVarcharSQLGenerator extends ModifyDataTypeGenerator
 
         String table = database.escapeTableName(statement.getCatalogName(), statement.getSchemaName(), statement.getTableName());;
         String column = database.escapeColumnName(statement.getCatalogName(), statement.getSchemaName(), statement.getTableName(), statement.getColumnName());
-        String type = statement.getNewDataType();
+        DatabaseDataType type = DataTypeFactory.getInstance().fromDescription(statement.getNewDataType(), database).toDatabaseDataType(database);
 
         String sql = String.format(
-            "ALTER TABLE \"%s\" MODIFY COLUMN (\"%s\" %s)",
+            "ALTER TABLE %s MODIFY COLUMN (%s %s)",
             table,
             column,
             type

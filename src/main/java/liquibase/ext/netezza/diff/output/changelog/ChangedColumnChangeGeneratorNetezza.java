@@ -12,6 +12,7 @@ import liquibase.ext.netezza.change.ModifyDataTypeChangeDestructiveNetezza;
 import liquibase.ext.netezza.database.NetezzaDatabase;
 import liquibase.structure.DatabaseObject;
 import liquibase.structure.core.Column;
+import liquibase.structure.core.DataType;
 import liquibase.structure.core.Schema;
 
 import java.sql.PreparedStatement;
@@ -49,7 +50,7 @@ public class ChangedColumnChangeGeneratorNetezza extends ChangedColumnChangeGene
         }
         String table = column.getRelation().getName();
         String columnName = column.getName();
-        Schema schema = column.getSchema();
+        Schema schema = column.getRelation().getSchema();
         boolean isSafe = isSafeExpansion(
             typeDifference.getReferenceValue().toString(),
             typeDifference.getComparedValue().toString()
@@ -76,7 +77,8 @@ public class ChangedColumnChangeGeneratorNetezza extends ChangedColumnChangeGene
             modifyDataTypeChangeDestructiveNetezza.setSchemaName(schema.getName());
             modifyDataTypeChangeDestructiveNetezza.setTableName(table);
             modifyDataTypeChangeDestructiveNetezza.setColumnName(columnName);
-            modifyDataTypeChangeDestructiveNetezza.setNewDataType(typeDifference.getComparedValue().toString());
+            DataType referenceType = (DataType)typeDifference.getReferenceValue();
+            modifyDataTypeChangeDestructiveNetezza.setNewDataType(referenceType.toString());
             changes.add(modifyDataTypeChangeDestructiveNetezza);
         }
     }

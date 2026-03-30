@@ -139,7 +139,7 @@
                     <configuration>
                         <archive>
                             <manifestEntries>
-                                <Liquibase-Package>liquibase.ext.netezza.sqlgenerator,liquibase.ext.netezza.change,liquibase.ext.netezza.database,liquibase.ext.netezza.snapshot,liquibase.ext.netezza.statement,liquibase.ext.netezza.diff</Liquibase-Package>
+                                <Liquibase-Package>liquibase.ext.netezza.sqlgenerator,liquibase.ext.netezza.datatype,liquibase.ext.netezza.change,liquibase.ext.netezza.database,liquibase.ext.netezza.snapshot,liquibase.ext.netezza.statement,liquibase.ext.netezza.diff</Liquibase-Package>
                             </manifestEntries>
                             <manifest>
                                 <addClasspath>true</addClasspath>
