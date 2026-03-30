@@ -23,8 +23,8 @@ import java.util.regex.Pattern;
 
 public class ChangedColumnChangeGeneratorNetezza extends ChangedColumnChangeGenerator {
 
-    public static final Pattern LENGTH_PRECISION_PATTERN = Pattern.compile("\\((\\d+),(\\d+)\\)");
-    public static final Pattern LENGTH_PATTERN = Pattern.compile("\\((\\d+)\\)");
+    public static final Pattern LENGTH_PATTERN = Pattern.compile("VARCHAR\\((\\d+)\\s*(?:BYTE)?\\)");
+
 
     @Override
     public int getPriority(Class<? extends DatabaseObject> objectType, Database database) {
@@ -52,8 +52,8 @@ public class ChangedColumnChangeGeneratorNetezza extends ChangedColumnChangeGene
         String columnName = column.getName();
         Schema schema = column.getRelation().getSchema();
         boolean isSafe = isSafeExpansion(
-            typeDifference.getReferenceValue().toString(),
-            typeDifference.getComparedValue().toString()
+            typeDifference.getComparedValue().toString(),
+            typeDifference.getReferenceValue().toString()
         );
         if (!isSafe && isDistributionKey(referenceDatabase, schema, table, columnName)) {
             throw new UnexpectedLiquibaseException(
@@ -99,21 +99,9 @@ public class ChangedColumnChangeGeneratorNetezza extends ChangedColumnChangeGene
         return false;
     }
 
-
     private int extractSingleNumber(String type) {
         Matcher m = LENGTH_PATTERN.matcher(type);
         return m.find() ? Integer.parseInt(m.group(1)) : 0;
-    }
-
-    private int[] extractTwoNumbers(String type) {
-        Matcher m = LENGTH_PRECISION_PATTERN.matcher(type);
-        if (m.find()) {
-            return new int[]{
-                Integer.parseInt(m.group(1)),
-                Integer.parseInt(m.group(2))
-            };
-        }
-        return new int[]{0, 0};
     }
 
     private boolean isDistributionKey(Database referenceDatabase, Schema schema, String table, String columnName) {
