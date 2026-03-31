@@ -138,8 +138,8 @@ public class ChangedColumnChangeGeneratorNetezza extends ChangedColumnChangeGene
         try (PreparedStatement ps =
             ((JdbcConnection) database.getConnection()).prepareStatement(sql)) {
 
-            ps.setString(1, table.toUpperCase());
-            ps.setString(2, schema.getName().toUpperCase());
+            ps.setString(1, schema.getName().toUpperCase());
+            ps.setString(2, table.toUpperCase());
             ps.setString(3, column.toUpperCase());
 
             try (ResultSet rs = ps.executeQuery()) {
