@@ -1,5 +1,6 @@
 package liquibase.ext.netezza.diff.output.changelog;
 
+import liquibase.Scope;
 import liquibase.change.Change;
 import liquibase.database.Database;
 import liquibase.database.jvm.JdbcConnection;
@@ -56,19 +57,19 @@ public class ChangedColumnChangeGeneratorNetezza extends ChangedColumnChangeGene
             typeDifference.getReferenceValue().toString()
         );
         if (!isSafe && isDistributionKey(referenceDatabase, schema, table, columnName)) {
-            throw new UnexpectedLiquibaseException(
-                "Column '" + columnName + "' is a distribution key. " +
-                    "Full table rebuild required."
-            );
+            Scope.getCurrentScope().getLog(getClass())
+                .warning(String.format("Column '%s.%s.%s' is a distribution key. Full table rebuild required.", schema, table, columnName));
+            return;
         }
 
         if (!isSafe && isIndexed(referenceDatabase, schema, table, columnName)) {
-            throw new UnexpectedLiquibaseException(
+            Scope.getCurrentScope().getLog(getClass()).warning(
                 String.format(
                     "Column '%s.%s.%s' is indexed and cannot be safely modified in Netezza.",
                     schema, table, columnName
                 )
             );
+            return;
         }
         if (isSafe) {
              super.handleTypeDifferences(column, differences, control, changes, referenceDatabase, comparisonDatabase);
