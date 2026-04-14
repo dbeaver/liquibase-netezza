@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>liquibase</groupId>
     <artifactId>netezza</artifactId>
-    <version>5.0.2</version>
+    <version>5.0.6</version>
     <name>Liquibase Netezza Database Integration</name>
     <description>Liquibase extension for Netezza database</description>
     <url>http://www.liquibase.org</url>
@@ -139,7 +139,7 @@
                     <configuration>
                         <archive>
                             <manifestEntries>
-                                <Liquibase-Package>liquibase.ext.netezza.database,liquibase.ext.netezza.snapshot</Liquibase-Package>
+                                <Liquibase-Package>liquibase.ext.netezza.sqlgenerator,liquibase.ext.netezza.datatype,liquibase.ext.netezza.change,liquibase.ext.netezza.database,liquibase.ext.netezza.snapshot,liquibase.ext.netezza.statement,liquibase.ext.netezza.diff</Liquibase-Package>
                             </manifestEntries>
                             <manifest>
                                 <addClasspath>true</addClasspath>
