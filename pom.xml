@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>liquibase</groupId>
     <artifactId>netezza</artifactId>
-    <version>5.0.5</version>
+    <version>5.0.6</version>
     <name>Liquibase Netezza Database Integration</name>
     <description>Liquibase extension for Netezza database</description>
     <url>http://www.liquibase.org</url>
